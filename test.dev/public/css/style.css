@@ -1,0 +1,142 @@
+/* line 5, project1/sass/style.scss */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 10, project1/sass/style.scss */
+#container {
+  width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* line 20, project1/sass/style.scss */
+h1 {
+  font-size: 25px;
+  font-family: Verdena;
+}
+
+/* line 23, project1/sass/style.scss */
+h2 {
+  font-size: 16px;
+  font-family: Verdena;
+  padding: 10px;
+}
+
+/* line 28, project1/sass/style.scss */
+header {
+  background-color: #FFFF00;
+  display: block;
+  padding: 15px;
+  width: 930px;
+  height: 50px;
+  border: solid #000000 1px;
+}
+
+/* line 36, project1/sass/style.scss */
+nav {
+  background-color: #B1AFAA;
+  display: block;
+  width: 960px;
+  font-weight: bold;
+  height: 30px;
+  border: solid #000000 1px;
+}
+/* line 43, project1/sass/style.scss */
+nav .option {
+  width: 90px;
+  padding: 5px;
+  height: 20px;
+  border-right: solid #000000 2px;
+  float: left;
+  text-align: center;
+  vertical-align: middle;
+}
+/* line 51, project1/sass/style.scss */
+nav .option:last-child {
+  border: none;
+}
+
+/* line 57, project1/sass/style.scss */
+aside {
+  border: solid #000000 1px;
+  font-weight: bold;
+  background-color: #B1AFAA;
+  display: block;
+  width: 200px;
+  float: left;
+  margin-top: 10px;
+  min-height: 350px;
+}
+/* line 66, project1/sass/style.scss */
+aside .option {
+  width: 180px;
+  padding: 10px;
+  border-bottom: solid black 5px;
+}
+/* line 70, project1/sass/style.scss */
+aside .option:last-child {
+  border: none;
+}
+
+/* line 77, project1/sass/style.scss */
+section {
+  display: block;
+  margin-left: 10px;
+  padding: 5px;
+  width: 720px;
+  min-height: 320px;
+  float: left;
+}
+
+/* line 85, project1/sass/style.scss */
+article {
+  display: block;
+  background-color: #F9DA74;
+  margin: 10px;
+  paddig: 10px;
+  width: 720px;
+  color: black;
+  border: solid black 1px;
+}
+/* line 93, project1/sass/style.scss */
+article p {
+  padding: 10px;
+}
+/* line 96, project1/sass/style.scss */
+article .comment {
+  display: block;
+  text-align: right;
+  margin-right: 0;
+  margin-bottom: 5px;
+  padding-right: 10px;
+}
+
+/* line 106, project1/sass/style.scss */
+.reset_float {
+  clear: both;
+}
+
+/* line 109, project1/sass/style.scss */
+.line {
+  margin-top: 7px;
+  margin-bottom: 7px;
+  width: 960px;
+  border-top: solid #B1AFAA 4px;
+}
+
+/* line 117, project1/sass/style.scss */
+footer {
+  width: 960px;
+  height: 100px;
+  text-align: center;
+  vertical-align: bottom;
+}
+
+/* line 123, project1/sass/style.scss */
+#center {
+  width: 960px;
+}

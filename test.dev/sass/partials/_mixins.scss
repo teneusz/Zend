@@ -1,0 +1,7 @@
+@mixin setFont($size: 15px, $family: Verdena)
+{
+    font:{
+        size: $size;
+        family: $family;
+    }
+}
