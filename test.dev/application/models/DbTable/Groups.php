@@ -4,20 +4,16 @@ class Application_Model_DbTable_Groups extends Zend_Db_Table_Abstract
 {
 
     protected $_name = 'groups';
-    
-    public function addGroups($owner,$name)
+
+    public function addGroups($owner, $nameGroup)
     {
-        $insert  = array(
+        $insert = array(
             'owner' => $owner,
-            'namegroup' => $name
+            'namegroup' => $nameGroup
         );
         $this->insert($insert);
-
-        $groupId = $this->fetchRow($this->select()->from($this->$_name,array('id'))->where(array('namegroup = ?'=>$name)));
-
+        $groupId = $this->fetchRow($this->select()->from($this->_name, array('id'))->where('namegroup = ?', $nameGroup));
         $inGroup = new Application_Model_DbTable_InGroup();
-        $inGroup->save($owner,$groupId['id']);
+        $inGroup->save($owner, $groupId['id']);
     }
-
 }
-

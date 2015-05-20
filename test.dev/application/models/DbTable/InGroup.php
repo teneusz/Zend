@@ -3,7 +3,7 @@
 class Application_Model_DbTable_InGroup extends Zend_Db_Table_Abstract
 {
 
-    protected $_name = 'ingroup';
+    protected $_name = 'inGroup';
 
     public function save($userId,$groupId)
     {

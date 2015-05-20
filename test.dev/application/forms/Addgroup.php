@@ -13,9 +13,9 @@ class Application_Form_Addgroup extends Zend_Form
             array(
                 "table" => 'groups',
                 'field' => 'nameGroup'
-
             )
         ));
+        $groupName->getValidator('Db_NoRecordExists')->setMessage("Ta nazwa jest już zajęta");
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Dodaj grupę');
         $this->addElements(array($groupName,$submit));

@@ -32,7 +32,7 @@ class GroupsController extends Zend_Controller_Action
         if($request->isPost() && $form->isValid($request->getPost()))
         {
             $groupDb = new Application_Model_DbTable_Groups();
-            $groupDb->save($this->_userData->id,$form->getValue('groupName'));//Error
+            $groupDb->addGroups($this->_userData->id,$form->getValue('groupName'));//Error
         }
         $this->view->form = $form;
     }
