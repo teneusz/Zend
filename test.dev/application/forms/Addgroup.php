@@ -5,7 +5,21 @@ class Application_Form_Addgroup extends Zend_Form
 
     public function init()
     {
-        /* Form Elements & Other Definitions Here ... */
+        $this->setMethod("post");
+        $groupName = new Zend_Form_Element_Text('groupName');
+        $groupName->setLabel('Nazwa Grupy')
+            ->isRequired(true);
+        $groupName->addValidator(new Zend_Validate_Db_NoRecordExists(
+            array(
+                "table" => 'groups',
+                'field' => 'nameGroup'
+
+            )
+        ));
+        $submit = new Zend_Form_Element_Submit('submit');
+        $submit->setLabel('Dodaj grupę');
+        $this->addElements(array($groupName,$submit));
+
     }
 
 

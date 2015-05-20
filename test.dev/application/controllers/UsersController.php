@@ -76,6 +76,7 @@ class UsersController extends Zend_Controller_Action
                 $db = new Application_Model_DbTable_Users();
                 $userProfile = new Zend_Session_Namespace('userData');
                 $userData = $db->getUserData($email);
+                $userProfile->id = $userData['id'];
                 $userProfile->email = $email;
                 $userProfile->fname = $userData['fname'];
                 $userProfile->lname = $userData['lname'];

@@ -6,20 +6,22 @@ class Application_Form_Adduser extends Zend_Form
     public function init()
     {
         $this->setMethod('post');
-        $this->addElement('text','fname',array('label'=>'Imie',
-                                               'required'=>true,
-                                                'filters'=>array('StringTrim')
-                                                //'placeholder'=>'Imię',
-                                                ));
+        $this->addElement('text','fname',array('label'=>'Imię',
+            'required'=>true,
+            'filters'=>array('StringTrim'),
+            'placeholder'=>'Imię',
+            ));
         $this->addElement('text','lname',array('label'=>'Nazwisko',
-                                                'required'=>true,
-                                                 'filters'=>array('StringTrim')
-                                                ));
+            'required'=>true,
+            'filters'=>array('StringTrim'),
+            'placeholder'=>'Nazwisko',
+            ));
         $this->addElement('text','email',array('label'=>'Adres e-mail:',
-                                                'required'=>true,
-                                                'filters'=>array('StringTrim'),
-                                                 'validators' => array('EmailAddress')
-                                                ));
+            'required'=>true,
+            'filters'=>array('StringTrim'),
+            'validators' => array('EmailAddress'),
+            'placeholder'=>'Adres e-mail'
+        ));
         $this->addElement('text','telnum',array('label'=>'Numer Telefonu','filters'=>array('StringTrim'),));
         $this->addElement('password','password',array('label'=>'Haslo','required'=>true,'filters'=>array('StringTrim')));
         $this->addElement('text','adr1',array('label'=>'adres','filters'=>array('StringTrim')));

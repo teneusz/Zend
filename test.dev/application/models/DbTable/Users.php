@@ -32,7 +32,7 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
     
     public function getUserData($email)
     {
-        $whatGet = array("fname","lname","phonenumber","adress1","adress2","country");
+        $whatGet = array("id","fname","lname","phonenumber","adress1","adress2","country");
         return $select = $this->fetchRow($this->select()->from('users',$whatGet)->where('email = ?',$email));
     }
  
