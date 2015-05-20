@@ -16,4 +16,16 @@ class Application_Model_DbTable_Groups extends Zend_Db_Table_Abstract
         $inGroup = new Application_Model_DbTable_InGroup();
         $inGroup->save($owner, $groupId['id']);
     }
+
+    public function listOfGroups($userId)
+    {
+        $select = $this->fetchAll(
+            $this->select()
+                ->from(array('g'=>$this->_name),array('namegroup'))
+                ->joinLeft(array("in"=>"inGroup"),'g.id = in.g_id')
+                ->where("in.u_id = ?",$userId)
+                ->setIntegrityCheck(false)
+        );
+        return $select;
+    }
 }

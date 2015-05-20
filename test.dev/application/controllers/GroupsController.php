@@ -44,7 +44,12 @@ class GroupsController extends Zend_Controller_Action
 
     public function listAction()
     {
-        // action body
+        $groups = new Application_Model_DbTable_Groups();
+        $grList = $groups->listOfGroups($this->_userData->id);
+        foreach($grList as $row)
+        {
+            echo $row['namegroup']."<br />";
+        }
     }
 
     public function deleteAction()

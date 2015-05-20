@@ -31,7 +31,7 @@ class UsersController extends Zend_Controller_Action
                 if($user->onlyOne($form->getValue('email')))
                 {
                     $user->save($form->getValues());
-                    $this->view->errorMessage = "Rejestracja przebiegła pomyślnie";
+                    echo $this->view->errorMessage = "Rejestracja przebiegła pomyślnie";
                 }else
                 {
                     echo $this->view->errorMessage = "Email sie powtórzył";
