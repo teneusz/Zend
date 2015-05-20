@@ -28,4 +28,18 @@ class Application_Model_DbTable_Groups extends Zend_Db_Table_Abstract
         );
         return $select;
     }
+
+    public function inGroup($groupName,$userId)
+    {
+        $select = $this->fetchRow(
+            $this->select()
+                ->from(array('g'=>$this->_name),array('count(namegroup) as ile'))
+                ->joinLeft(array('in'=>'inGroup'),'g.id = in.g_id')
+                ->where("g.namegroup = ?",$groupName)->where("in.u_id = ?",$userId)
+                ->setIntegrityCheck(false)
+        );
+        if($select['ile'] > 0)
+        {return true;}
+        else return false;
+    }
 }
