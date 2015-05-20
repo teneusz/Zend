@@ -2,9 +2,11 @@
 
 class Application_Form_Addmessage extends Zend_Form
 {
+    private $destination;
 
     public function init()
     {
+
         $this->setMethod('post');
         $tekst = new Zend_Form_Element_Textarea('usermessage');
         $tekst->setLabel("Treść Wiadomości")

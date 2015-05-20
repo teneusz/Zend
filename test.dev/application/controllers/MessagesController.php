@@ -3,6 +3,22 @@
 class MessagesController extends Zend_Controller_Action
 {
     private static $_userData;
+
+    private function getForm($destination)
+    {
+        $form = new Zend_Form();
+        $form->setAction($destination);
+        $form->setMethod('post');
+        $tekst = new Zend_Form_Element_Textarea('usermessage');
+        $tekst->setValue($destination)->setLabel("Treść Wiadomości")
+            ->isRequired(true);
+        $tekst->setAttribs(array("rows"=>"5","value"));
+        $submit = new Zend_Form_Element_Submit('submit');
+        $submit->setLabel('Wyślij');
+        $form->addElements(array($tekst,$submit));
+        return $form;
+    }
+
     public function init()
     {
 
@@ -21,16 +37,20 @@ class MessagesController extends Zend_Controller_Action
         $grupa = $this->getRequest()->getParam("grupa");
         $this->inGroup($grupa,$this->_userData->id);
     }
-
+    /**
+     * TODO
+     * Do poprawy
+    **/
     public function addAction()
     {
         $grupa = $this->getRequest()->getParam("grupa");
         $this->inGroup($grupa,$this->_userData->id);
-        $form = new Application_Form_Addmessage();
+        $form = new Application_Form_Addmessage("messages/add/grupa/"+$grupa);
         $request = $this->getRequest();
         $form->setAction("messages/add/grupa/"+$grupa);
         if($request->isPost()&&$form->isValid($request->getPost())){}
         echo $this->view->form = $form;
+        $this->render('form');
     }
 
     public function deleteAction()
@@ -42,11 +62,8 @@ class MessagesController extends Zend_Controller_Action
     {
         $grupa = $this->getRequest()->getParam("grupa");
         $this->inGroup($grupa,$this->_userData->id);
-        $form = new Application_Form_Addmessage();
-        $form->setAction("messages/add/grupa/"+$grupa);
-        $request = $this->getRequest();
-        if($request->isPost()&&$form->isValid($request->getPost())){}
-        echo $this->view->form = $form;
+
+        echo $this->view->form = $this->getForm("messages/add/grupa/"+$grupa);
     }
 
     public function editAction()
