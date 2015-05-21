@@ -1,4 +1,14 @@
+<script type="application/javascript" src="http://underscorejs.org/underscore-min.js"></script>
+<script type="application/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="application/javascript">
+    var dane = <?php echo $this->data;?>;
+    _.each(dane, function(item){        console.log(item);    } );
+</script>
+
 <br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Messages</b> and script/action name <b>list</b></p>
-</div>
+<p>
+    <a href="<?php echo $this->url(array('controller' => 'messages', 'action' => 'add')); ?>"><button>Nowa wiadomość</button></a>
+    <?php
+
+    ?>
+</p>

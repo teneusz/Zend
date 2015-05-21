@@ -42,4 +42,14 @@ class Application_Model_DbTable_Groups extends Zend_Db_Table_Abstract
         {return true;}
         else return false;
     }
+
+    public function getId($groupName)
+    {
+        $select = $this->fetchRow(
+            $this->select()
+                ->from($this->_name,'id')
+                ->where("namegroup = ?",$groupName)
+        );
+        return $select['id'];
+    }
 }

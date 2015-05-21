@@ -1,4 +1,36 @@
+<script type="application/javascript" src="http://underscorejs.org/underscore-min.js"></script>
+<script type="application/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="application/javascript">
+    var html= '';
+    var tmpUsers = '';
+    $( document ).ready(
+    tmpUsers = _.template($("#users_template").html());
+    $.getJSON("<?php echo $this->url(array('controller' => 'messages', 'action' => 'list')); ?>",
+        function( data ) {
+            html = tmpUsers(data);
+            $("p").append(html);
+        });
+    );
+</script>
+<script type="text/template" id="users_template">
+    <& _.each(obj,function(item){ %>
+    <div style="color: #B2BEB5">
+        <div style="color: #6699CC">
+            <p>
+                <% print(item.fname+' '+item.lname+' napisał:'); %>
+            </p>
+            <p>
+                <% print(item.text); %>
+            </p>
+        </div>
+
+    <br /><br />
+    <% }); %>
+</script>
 <br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Messages</b> and script/action name <b>index</b></p>
-</div>
+<p>
+    <a href="<?php echo $this->url(array('controller' => 'messages', 'action' => 'add')); ?>"><button>Nowa wiadomość</button></a>
+    <?php
+
+    ?>
+</p>

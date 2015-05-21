@@ -4,24 +4,8 @@ class MessagesController extends Zend_Controller_Action
 {
     private static $_userData;
 
-    private function getForm($destination)
-    {
-        $form = new Zend_Form();
-        $form->setAction($destination);
-        $form->setMethod('post');
-        $tekst = new Zend_Form_Element_Textarea('usermessage');
-        $tekst->setValue($destination)->setLabel("Treść Wiadomości")
-            ->isRequired(true);
-        $tekst->setAttribs(array("rows"=>"5","value"));
-        $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Wyślij');
-        $form->addElements(array($tekst,$submit));
-        return $form;
-    }
-
     public function init()
     {
-
         $this->_userData = new Zend_Session_Namespace('userData');
         $auth = Zend_Auth::getInstance();
         $logged = $auth->hasIdentity();
@@ -33,24 +17,39 @@ class MessagesController extends Zend_Controller_Action
 
     public function indexAction()
     {
-
-        $grupa = $this->getRequest()->getParam("grupa");
-        $this->inGroup($grupa,$this->_userData->id);
+        $groupSession = new Zend_Session_Namespace('grupa');
+        $group = $this->getRequest()->getParam("grupa");
+        $grupaDb = new Application_Model_DbTable_Groups();
+        if($group == NULL)
+        {
+            $group = $groupSession->name;
+            $this->inGroup($groupSession->name,$this->_userData->id);
+        }else
+        {
+            $this->inGroup($group,$this->_userData->id);
+            if($groupSession->isLocked())
+                $groupSession->unlock();
+            $groupSession->name = $group;
+            $groupSession->id = $grupaDb->getId($group);
+            $groupSession->lock();
+        }
     }
-    /**
-     * TODO
-     * Do poprawy
-    **/
+
+
     public function addAction()
     {
-        $grupa = $this->getRequest()->getParam("grupa");
-        $this->inGroup($grupa,$this->_userData->id);
-        $form = new Application_Form_Addmessage("messages/add/grupa/"+$grupa);
+        $grupaSession = new Zend_Session_Namespace('grupa');
+        $this->inGroup($grupaSession->name,$this->_userData->id);
+        $answer = $this->getRequest()->getParam('answer');
+        $form = new Application_Form_Addmessage();
         $request = $this->getRequest();
-        $form->setAction("messages/add/grupa/"+$grupa);
-        if($request->isPost()&&$form->isValid($request->getPost())){}
+        if($request->isPost()&&$form->isValid($request->getPost())){
+            $messDb = new Application_Model_DbTable_Messages();
+            $messDb->save($this->_userData->id,$grupaSession->id,$form->getValue('usermessage'),$answer);
+            $this->redirect('messages/list');
+        }
         echo $this->view->form = $form;
-        $this->render('form');
+
     }
 
     public function deleteAction()
@@ -60,10 +59,33 @@ class MessagesController extends Zend_Controller_Action
 
     public function listAction()
     {
-        $grupa = $this->getRequest()->getParam("grupa");
-        $this->inGroup($grupa,$this->_userData->id);
+        $groupSession = new Zend_Session_Namespace('grupa');
+        $group = $this->getRequest()->getParam("grupa");
+        $grupaDb = new Application_Model_DbTable_Groups();
+        if($group == NULL)
+        {
+            $group = $groupSession->name;
+            $this->inGroup($groupSession->name,$this->_userData->id);
+        }else
+        {
+            $this->inGroup($group,$this->_userData->id);
+            if($groupSession->isLocked())
+                $groupSession->unlock();
+            $groupSession->name = $group;
+            $groupSession->id = $grupaDb->getId($group);
+            $groupSession->lock();
+        }
 
-        echo $this->view->form = $this->getForm("messages/add/grupa/"+$grupa);
+        $messageDb = new Application_Model_DbTable_Messages();
+        $messages = $messageDb->show(null,$groupSession->id);
+        $dane = array();
+        foreach ($messages as $row) {
+            $answers = $messageDb->show($row['id'],$groupSession->id);
+            array_push($dane, array("lname"=>$row['lname'],'fname'=>$row['fname'],"text"=>$row['text'],'createdate'=>$row['createDate'],"odpowiedzi"=>$answers));
+        }
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        echo Zend_Json::encode($dane);
     }
 
     public function editAction()
@@ -73,6 +95,7 @@ class MessagesController extends Zend_Controller_Action
 
     private function inGroup($groupName,$userId)
     {
+
         if($groupName == NULL) $this->redirect('groups/list');
         $group = new Application_Model_DbTable_Groups();
         $result = $group->inGroup($groupName,$userId);

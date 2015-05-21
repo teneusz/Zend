@@ -2,19 +2,18 @@
 
 class Application_Form_Addmessage extends Zend_Form
 {
-    private $destination;
 
     public function init()
     {
-
+        $this->setAction('add');
         $this->setMethod('post');
-        $tekst = new Zend_Form_Element_Textarea('usermessage');
-        $tekst->setLabel("Treść Wiadomości")
+        $text = new Zend_Form_Element_Textarea('usermessage');
+        $text->setLabel("Treść Wiadomości:")
             ->isRequired(true);
-        $tekst->setAttribs(array("rows"=>"5"));
+        $text->setAttribs(array("rows"=>"5"));
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Wyślij');
-        $this->addElements(array($tekst,$submit));
+        $this->addElements(array($text,$submit));
 
     }
 
