@@ -17,6 +17,7 @@ class MessagesController extends Zend_Controller_Action
 
     public function indexAction()
     {
+
         $groupSession = new Zend_Session_Namespace('grupa');
         $group = $this->getRequest()->getParam("grupa");
         $grupaDb = new Application_Model_DbTable_Groups();
@@ -35,19 +36,40 @@ class MessagesController extends Zend_Controller_Action
         }
     }
 
-
     public function addAction()
     {
         $grupaSession = new Zend_Session_Namespace('grupa');
         $this->inGroup($grupaSession->name,$this->_userData->id);
         $answer = $this->getRequest()->getParam('answer');
+        $grupaSession->unlock();
+        if(is_int($answer))
+        {
+             $grupaSession->answer = $answer;
+
+        }else if(!is_int($grupaSession->answer))
+        {
+            $grupaSession->answer = null;
+        }
+        $grupaSession->lock();
         $form = new Application_Form_Addmessage();
         $request = $this->getRequest();
-        if($request->isPost()&&$form->isValid($request->getPost())){
+        if($request->isPost()&&$form->isValid($request->getPost())) {
             $messDb = new Application_Model_DbTable_Messages();
-            $messDb->save($this->_userData->id,$grupaSession->id,$form->getValue('usermessage'),$answer);
-            $this->redirect('messages/list');
+            $canIAnswer = true;
+            if($grupaSession->answer != null){
+                $canIAnswer = $messDb->canIAnswer($grupaSession->id, $grupaSession->answer);
+            }
+            if ($canIAnswer) {
+                $messDb->save($this->_userData->id, $grupaSession->id, $form->getValue('usermessage'), $grupaSession->answer);
+                $grupaSession->unlock();
+                $grupaSession->answer = null;
+                $grupaSession->lock();
+                //$this->redirect('messages/index');
+            }else{
+                echo $this->view->errorMessage = "Nie możesz udzielić odpowiedzi na tą wiadomość";
+            }
         }
+
         echo $this->view->form = $form;
 
     }
@@ -59,6 +81,7 @@ class MessagesController extends Zend_Controller_Action
 
     public function listAction()
     {
+
         $groupSession = new Zend_Session_Namespace('grupa');
         $group = $this->getRequest()->getParam("grupa");
         $grupaDb = new Application_Model_DbTable_Groups();
@@ -81,10 +104,13 @@ class MessagesController extends Zend_Controller_Action
         $dane = array();
         foreach ($messages as $row) {
             $answers = $messageDb->show($row['id'],$groupSession->id);
-            array_push($dane, array("lname"=>$row['lname'],'fname'=>$row['fname'],"text"=>$row['text'],'createdate'=>$row['createDate'],"odpowiedzi"=>$answers));
+            array_push($dane, array("lname"=>$row['lname'],'fname'=>$row['fname'],'id'=>$row['m_id'],"text"=>$row['text'],'createdate'=>$row['createDate'],"odpowiedzi"=>$answers));
         }
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json');
+        header('Content-type: application/json');
         echo Zend_Json::encode($dane);
     }
 

@@ -1,14 +1,13 @@
 <?php echo $this->doctype();?>
 <html>
     <head>
+
        <?php 
        echo $this->headMeta(); 
-       echo $this->headLink()->appendStylesheet("/css/style.css");
+       echo $this->headLink()->appendStylesheet("/css/style.css")."\r\n";
+       echo $this->headScript()->appendFile('/js/underscore.js','text/javascript',array())."\r\n";
+       echo $this->headScript()->appendFile('/js/jquery.js','text/javascript',array())."\r\n";
        ?>
-    <a href="../../../../index.html"></a>
-    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="http://underscorejs.org/underscore-min.js"></script>
-    
     </head>
     <body>
 <div id="container">
@@ -31,12 +30,11 @@
     </aside>
     <section>
         <article>
-            <p>
+
                 <?php
                 echo $this->layout()->content;
                 echo $this->view;
                 ?>
-            </p>
         <span class="comment">Komentarzy (0)</span>
         </article>
     </section>

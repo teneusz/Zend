@@ -1,36 +1,47 @@
-<script type="application/javascript" src="http://underscorejs.org/underscore-min.js"></script>
-<script type="application/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="application/javascript">
-    var html= '';
-    var tmpUsers = '';
-    $( document ).ready(
-    tmpUsers = _.template($("#users_template").html());
-    $.getJSON("<?php echo $this->url(array('controller' => 'messages', 'action' => 'list')); ?>",
-        function( data ) {
-            html = tmpUsers(data);
-            $("p").append(html);
-        });
-    );
-</script>
-<script type="text/template" id="users_template">
-    <& _.each(obj,function(item){ %>
+
+<script type="text/template" id="messages">
+    <% _.each(obj, function(item){ %>
     <div style="color: #B2BEB5">
-        <div style="color: #6699CC">
+        <div class="main_message">
             <p>
                 <% print(item.fname+' '+item.lname+' napisał:'); %>
             </p>
             <p>
                 <% print(item.text); %>
             </p>
+            <a href="<?php echo $this->url(array('controller' => 'messages', 'action'=>'add')); ?>/answer/<% print(item.id)%>"<button>Odpowiedz</button></a>
         </div>
-
+        <% _.each(item.odpowiedzi, function(row){ %>
+        <div class="answer_message">
+            <p>
+                <% print(row.fname+' '+row.lname+' napisał:'); %>
+            </p>
+            <p>
+                <% print(row.text); %>
+            </p>
+        </div>
+        <% }); %>
+    </div>
     <br /><br />
     <% }); %>
 </script>
 <br /><br />
 <p>
     <a href="<?php echo $this->url(array('controller' => 'messages', 'action' => 'add')); ?>"><button>Nowa wiadomość</button></a>
-    <?php
-
-    ?>
 </p>
+
+    <div id="message_list"></div>
+<script type="application/javascript">
+    $(document).ready(function(){
+
+        var tmpUsers = _.template($("#messages").html());
+        $.getJSON("<?php echo $this->url(array('controller' => 'messages', 'action' => 'list')); ?>",
+            function( data ) {
+                var html = tmpUsers(data);
+                console.log(html);
+                $("#message_list").append(html);
+            });
+
+    });
+
+</script>
