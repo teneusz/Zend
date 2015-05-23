@@ -42,17 +42,19 @@ class MessagesController extends Zend_Controller_Action
         $this->inGroup($grupaSession->name,$this->_userData->id);
         $answer = $this->getRequest()->getParam('answer');
         $grupaSession->unlock();
-        if(is_int($answer))
+        if(is_numeric($answer))
         {
              $grupaSession->answer = $answer;
 
-        }else if(!is_int($grupaSession->answer))
+        }else if(!is_numeric($grupaSession->answer))
         {
             $grupaSession->answer = null;
         }
         $grupaSession->lock();
         $form = new Application_Form_Addmessage();
         $request = $this->getRequest();
+        echo $this->view->errorMessage = $grupaSession->answer;
+        echo $this->view->errorMessage = $answer;
         if($request->isPost()&&$form->isValid($request->getPost())) {
             $messDb = new Application_Model_DbTable_Messages();
             $canIAnswer = true;
@@ -69,9 +71,7 @@ class MessagesController extends Zend_Controller_Action
                 echo $this->view->errorMessage = "Nie możesz udzielić odpowiedzi na tą wiadomość";
             }
         }
-
         echo $this->view->form = $form;
-
     }
 
     public function deleteAction()
@@ -81,7 +81,6 @@ class MessagesController extends Zend_Controller_Action
 
     public function listAction()
     {
-
         $groupSession = new Zend_Session_Namespace('grupa');
         $group = $this->getRequest()->getParam("grupa");
         $grupaDb = new Application_Model_DbTable_Groups();
@@ -98,13 +97,17 @@ class MessagesController extends Zend_Controller_Action
             $groupSession->id = $grupaDb->getId($group);
             $groupSession->lock();
         }
-
         $messageDb = new Application_Model_DbTable_Messages();
         $messages = $messageDb->show(null,$groupSession->id);
         $dane = array();
         foreach ($messages as $row) {
-            $answers = $messageDb->show($row['id'],$groupSession->id);
-            array_push($dane, array("lname"=>$row['lname'],'fname'=>$row['fname'],'id'=>$row['m_id'],"text"=>$row['text'],'createdate'=>$row['createDate'],"odpowiedzi"=>$answers));
+            $answers = $messageDb->show($row['m_id'],$groupSession->id);
+            $odpowiedzi = array();
+            foreach($answers as $answer)
+            {
+                array_push($odpowiedzi,array("lname"=>$answer['lname'],'fname'=>$answer['fname'],"text"=>$answer['text'],'createdate'=>$answer['createDate']));
+            }
+            array_push($dane, array("lname"=>$row['lname'],'fname'=>$row['fname'],'id'=>$row['m_id'],"text"=>$row['text'],'createdate'=>$row['createDate'],"odpowiedzi"=>$odpowiedzi));
         }
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
