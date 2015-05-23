@@ -46,10 +46,12 @@ class GroupsController extends Zend_Controller_Action
     {
         $groups = new Application_Model_DbTable_Groups();
         $grList = $groups->listOfGroups($this->_userData->id);
-        foreach($grList as $row)
-        {
-            echo $row['namegroup']."<br />";
-        }
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json');
+        header('Content-type: application/json');
+        echo Zend_Json::encode($grList);
     }
 
     public function deleteAction()

@@ -8,6 +8,23 @@
        echo $this->headScript()->appendFile('/js/underscore.js','text/javascript',array())."\r\n";
        echo $this->headScript()->appendFile('/js/jquery.js','text/javascript',array())."\r\n";
        ?>
+
+        <script type="text/template" id="group_list">
+        <% _.each(obj,function(row){%>
+            <a href="/messages/index/grupa/<%print(row.namegroup)%>"><div class="option"><%print(row.namegroup)%></div></a>
+            <% });%>
+        </script>
+        <script type="application/javascript">
+            $(document).ready(function()
+            {
+                var tmpUsers = _.template($("#group_list").html());
+                $.getJSON("<?php echo $this->url(array('controller' => 'groups', 'action' => 'list')); ?>",
+                    function( data ) {
+                        var html = tmpUsers(data);
+                        $("aside a").before(html);
+                    });
+            });
+        </script>
     </head>
     <body>
 <div id="container">
@@ -24,9 +41,32 @@
     <div class="reset_float"></div>
     <div id="center">
     <aside>
-            <div class="option">Opcja 1</div>
-            <div class="option">Opcja 1</div>
-            <div class="option">Opcja 1</div>
+        <?php
+        $auth = Zend_Auth::getInstance();
+        $logged = $auth->hasIdentity();
+        if(!$logged)
+        {
+            echo "<!--";
+        }
+        ?>
+            <div class="option">Lista grup</div>
+        <?php
+        if(!$logged)
+        {
+            echo "-->";
+            echo '
+           <a href="/users/login"> <div class="option">Zaloguj</div></a>
+            <a href="/users/add"> <div class="option">Zarejestruj</div></a>
+            ';
+        }
+        else
+        {
+            echo '
+           <a href="/users/logout"> <div class="option">Wyloguj</div></a>
+            ';
+        }
+        ?>
+
     </aside>
     <section>
         <article>

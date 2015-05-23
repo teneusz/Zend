@@ -38,7 +38,6 @@
         $.getJSON("<?php echo $this->url(array('controller' => 'messages', 'action' => 'list')); ?>",
             function( data ) {
                 var html = tmpUsers(data);
-                console.log(html);
                 $("#message_list").append(html);
             });
 
