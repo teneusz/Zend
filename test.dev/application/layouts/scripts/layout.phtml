@@ -21,7 +21,7 @@
                 $.getJSON("<?php echo $this->url(array('controller' => 'groups', 'action' => 'list')); ?>",
                     function( data ) {
                         var html = tmpUsers(data);
-                        $("aside a").before(html);
+                        $("aside").append(html);
                     });
             });
         </script>
@@ -33,17 +33,25 @@
     </header>
 
     <nav>     
-            <div class="option">Początek</div>
-            <div class="option">Zdjęcia</div>
-            <div class="option">Wideo</div>
-            <div class="option">Kontakt</div>
+            <a href="/"><div class="option">Początek</div></a>
+            <a href="/groups/add"><div class="option">Dodaj grupe</div></a>
+        <?php
+        $auth = Zend_Auth::getInstance();
+        $logged = $auth->hasIdentity();
+        if($logged)
+        {
+            echo '
+           <a href="/users/logout"> <div class="option">Wyloguj</div></a>
+            ';
+        }
+        ?>
+
         </nav>
     <div class="reset_float"></div>
     <div id="center">
     <aside>
         <?php
-        $auth = Zend_Auth::getInstance();
-        $logged = $auth->hasIdentity();
+
         if(!$logged)
         {
             echo "<!--";
@@ -57,12 +65,6 @@
             echo '
            <a href="/users/login"> <div class="option">Zaloguj</div></a>
             <a href="/users/add"> <div class="option">Zarejestruj</div></a>
-            ';
-        }
-        else
-        {
-            echo '
-           <a href="/users/logout"> <div class="option">Wyloguj</div></a>
             ';
         }
         ?>

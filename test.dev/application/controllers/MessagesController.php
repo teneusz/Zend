@@ -53,8 +53,6 @@ class MessagesController extends Zend_Controller_Action
         $grupaSession->lock();
         $form = new Application_Form_Addmessage();
         $request = $this->getRequest();
-        echo $this->view->errorMessage = $grupaSession->answer;
-        echo $this->view->errorMessage = $answer;
         if($request->isPost()&&$form->isValid($request->getPost())) {
             $messDb = new Application_Model_DbTable_Messages();
             $canIAnswer = true;
@@ -66,7 +64,7 @@ class MessagesController extends Zend_Controller_Action
                 $grupaSession->unlock();
                 $grupaSession->answer = null;
                 $grupaSession->lock();
-                //$this->redirect('messages/index');
+                $this->redirect('messages/index');
             }else{
                 echo $this->view->errorMessage = "Nie możesz udzielić odpowiedzi na tą wiadomość";
             }

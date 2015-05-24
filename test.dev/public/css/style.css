@@ -1,10 +1,10 @@
-/* line 5, project1/sass/style.scss */
+/* line 5, ../../sass/style.scss */
 * {
   margin: 0;
   padding: 0;
 }
 
-/* line 10, project1/sass/style.scss */
+/* line 10, ../../sass/style.scss */
 #container {
   width: 960px;
   margin-left: auto;
@@ -13,20 +13,20 @@
   margin-bottom: 15px;
 }
 
-/* line 20, project1/sass/style.scss */
+/* line 20, ../../sass/style.scss */
 h1 {
   font-size: 25px;
   font-family: Verdena;
 }
 
-/* line 23, project1/sass/style.scss */
+/* line 23, ../../sass/style.scss */
 h2 {
   font-size: 16px;
   font-family: Verdena;
   padding: 10px;
 }
 
-/* line 28, project1/sass/style.scss */
+/* line 28, ../../sass/style.scss */
 header {
   background-color: #FFFF00;
   display: block;
@@ -36,7 +36,7 @@ header {
   border: solid #000000 1px;
 }
 
-/* line 36, project1/sass/style.scss */
+/* line 36, ../../sass/style.scss */
 nav {
   background-color: #B1AFAA;
   display: block;
@@ -45,7 +45,11 @@ nav {
   height: 30px;
   border: solid #000000 1px;
 }
-/* line 43, project1/sass/style.scss */
+/* line 43, ../../sass/style.scss */
+nav a {
+  text-decoration: none;
+}
+/* line 46, ../../sass/style.scss */
 nav .option {
   width: 90px;
   padding: 5px;
@@ -54,13 +58,14 @@ nav .option {
   float: left;
   text-align: center;
   vertical-align: middle;
+  color: #000000;
 }
-/* line 51, project1/sass/style.scss */
-nav .option:last-child {
-  border: none;
+/* line 56, ../../sass/style.scss */
+nav .option:hover {
+  background-color: #019191;
 }
 
-/* line 57, project1/sass/style.scss */
+/* line 62, ../../sass/style.scss */
 aside {
   border: solid #000000 1px;
   font-weight: bold;
@@ -71,18 +76,28 @@ aside {
   margin-top: 10px;
   min-height: 350px;
 }
-/* line 66, project1/sass/style.scss */
+/* line 71, ../../sass/style.scss */
+aside a {
+  text-decoration: none;
+}
+/* line 74, ../../sass/style.scss */
 aside .option {
   width: 180px;
   padding: 10px;
   border-bottom: solid black 5px;
+  color: #000000;
 }
-/* line 70, project1/sass/style.scss */
+/* line 79, ../../sass/style.scss */
 aside .option:last-child {
   border: none;
+  background-color: #707070;
+}
+/* line 84, ../../sass/style.scss */
+aside .option:hover {
+  background-color: #019191;
 }
 
-/* line 77, project1/sass/style.scss */
+/* line 92, ../../sass/style.scss */
 section {
   display: block;
   margin-left: 10px;
@@ -91,8 +106,30 @@ section {
   min-height: 320px;
   float: left;
 }
+/* line 101, ../../sass/style.scss */
+section .message {
+  background-color: #B1AFAA;
+  width: 680px;
+  margin: 10px;
+  padding: 10px;
+}
+/* line 107, ../../sass/style.scss */
+section .message .main_message {
+  border: solid #000000 2px;
+  background-color: #7F00FF;
+}
+/* line 112, ../../sass/style.scss */
+section .message .answer_message {
+  margin-left: 25px;
+  background-color: #F0F8FF;
+  border: solid #000000 1px;
+}
+/* line 118, ../../sass/style.scss */
+section .message .text {
+  background-color: #00FFFF;
+}
 
-/* line 85, project1/sass/style.scss */
+/* line 125, ../../sass/style.scss */
 article {
   display: block;
   background-color: #F9DA74;
@@ -102,11 +139,11 @@ article {
   color: black;
   border: solid black 1px;
 }
-/* line 93, project1/sass/style.scss */
+/* line 133, ../../sass/style.scss */
 article p {
   padding: 10px;
 }
-/* line 96, project1/sass/style.scss */
+/* line 136, ../../sass/style.scss */
 article .comment {
   display: block;
   text-align: right;
@@ -115,12 +152,12 @@ article .comment {
   padding-right: 10px;
 }
 
-/* line 106, project1/sass/style.scss */
+/* line 147, ../../sass/style.scss */
 .reset_float {
   clear: both;
 }
 
-/* line 109, project1/sass/style.scss */
+/* line 150, ../../sass/style.scss */
 .line {
   margin-top: 7px;
   margin-bottom: 7px;
@@ -128,7 +165,7 @@ article .comment {
   border-top: solid #B1AFAA 4px;
 }
 
-/* line 117, project1/sass/style.scss */
+/* line 158, ../../sass/style.scss */
 footer {
   width: 960px;
   height: 100px;
@@ -136,7 +173,7 @@ footer {
   vertical-align: bottom;
 }
 
-/* line 123, project1/sass/style.scss */
+/* line 164, ../../sass/style.scss */
 #center {
   width: 960px;
 }

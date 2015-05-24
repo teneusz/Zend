@@ -1,22 +1,22 @@
 
 <script type="text/template" id="messages">
     <% _.each(obj, function(item){ %>
-    <div style="color: #B2BEB5">
+    <div class="message">
         <div class="main_message">
             <p>
                 <% print(item.fname+' '+item.lname+' napisał:'); %>
             </p>
-            <p>
+            <p class="text">
                 <% print(item.text); %>
             </p>
-            <a href="<?php echo $this->url(array('controller' => 'messages', 'action'=>'add')); ?>/answer/<% print(item.id)%>"<button>Odpowiedz</button></a>
+            <a href="<?php echo $this->url(array('controller' => 'messages', 'action'=>'add')); ?>/answer/<% print(item.id)%>"><button type="button">Odpowiedz</button></a>
         </div>
         <% _.each(item.odpowiedzi, function(row){ %>
         <div class="answer_message">
             <p>
                 <% print(row.fname+' '+row.lname+' napisał:'); %>
             </p>
-            <p>
+            <p class="text">
                 <% print(row.text); %>
             </p>
         </div>
@@ -28,6 +28,7 @@
 <br /><br />
 <p>
     <a href="<?php echo $this->url(array('controller' => 'messages', 'action' => 'add')); ?>"><button>Nowa wiadomość</button></a>
+    <a href="<?php echo $this->url(array('controller' => 'groups', 'action' => 'adduser')); ?>"><button>Dodaj użytkownika do grupy</button></a>
 </p>
 
     <div id="message_list"></div>

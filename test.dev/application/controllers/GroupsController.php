@@ -2,7 +2,9 @@
 
 class GroupsController extends Zend_Controller_Action
 {
-    private static $_userData;
+
+    private static $_userData = null;
+
     public function init()
     {
         $this->_userData = new Zend_Session_Namespace('userData');
@@ -19,12 +21,7 @@ class GroupsController extends Zend_Controller_Action
         echo $this->_userData->id;
     }
 
-    /**
-     * TODO
-     * Show form addgroup.php
-     * Instance of class Application_Model_DbTable_Groups
-     * Instance of class Application_Model_DbTable_InGroup
-     */
+
     public function addAction()
     {
         $form = new Application_Form_Addgroup();
@@ -59,8 +56,36 @@ class GroupsController extends Zend_Controller_Action
         // action body
     }
 
+    public function adduserAction()
+    {
+        $form = new Application_Form_Addusertogroup();
+        $request = $this->getRequest();
+        $grData = new Zend_Session_Namespace('grupa');
+        $grName = $grData->name;
+
+        if($grName == null) $this->redirect('/messages/index');
+        if($request->isPost() && $form->isValid($request->getPost()))
+        {
+            $grDb = new Application_Model_DbTable_Groups();
+            $usDb = new Application_Model_DbTable_Users();
+            $inDb = new Application_Model_DbTable_InGroup();
+            $isIn = $inDb->isIn($usDb->getId($form->getValue('email')),$grDb->getId($grName));
+            if($isIn)
+            {
+                echo $this->view->errorMessage = 'Użytkowanik jest już w grupie';
+            }else{
+                $inDb->save($usDb->getId($form->getValue('email')),$grDb->getId($grName));
+                echo $this->view->errorMessage = 'Użytkowanik dodany do grupy<br />';
+            }
+
+        }
+        echo $this->view->form = $form;
+    }
+
 
 }
+
+
 
 
 

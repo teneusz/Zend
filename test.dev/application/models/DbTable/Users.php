@@ -35,6 +35,14 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
         $whatGet = array("id","fname","lname","phonenumber","adress1","adress2","country");
         return $select = $this->fetchRow($this->select()->from('users',$whatGet)->where('email = ?',$email));
     }
+
+    public function getId($email)
+    {
+        $select = $this->fetchRow(
+            $this->select()->from($this->_name,array('id'))->where('email = ?', $email)
+        );
+        return $select['id'];
+    }
  
 }
 

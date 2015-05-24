@@ -40,6 +40,9 @@ nav{
   font-weight: bold;
   height: 30px;
     border: solid $black 1px;
+  a{
+  text-decoration: none;
+}
   .option{
     width: $nav-option-width - 2*$nav-option-padding;
     padding: $nav-option-padding;
@@ -48,9 +51,11 @@ nav{
     float: left;
     text-align: center;
     vertical-align: middle;
-    &:last-child{
-      border: none;
-      }
+    color: $black;
+
+    &:hover{
+      background-color: $gray-hover;
+    }
   }
 }
 
@@ -63,14 +68,24 @@ aside {
   float: left;
   margin-top: 10px;
   min-height: $aside-height;
+  a{
+    text-decoration: none;
+  }
   .option{
     width: $aside-option-width - 2*$aside-option-padding;
     padding: $aside-option-padding;
     border-bottom: solid black 5px;
+    color: $black;
     &:last-child
-    {
-      border: none;
+  {
+    border: none;
+    background-color: $gray-group;
+  }
+    &:hover{
+      background-color: $gray-hover;
     }
+
+
   }
 }
 
@@ -81,6 +96,31 @@ section {
   width: $section-width - 2*$section-padding - $section-margin-left;
   min-height: $section-height;
   float: left;
+
+
+  .message
+  {
+    background-color: $cloudy;
+    width: 680px;
+    margin: 10px;
+    padding: 10px;
+    .main_message
+    {
+      border: solid $black 2px;
+      background-color: $violet;
+    }
+    .answer_message
+    {
+      margin-left: 25px;
+      background-color: $alice-blue;
+      border: solid $black 1px;
+    }
+    .text
+    {
+      background-color: $cyan;
+    }
+  }
+
 }
 article{
   display: block;
@@ -102,6 +142,7 @@ article{
     }
     padding-right: 10px;
   }
+
 }
 .reset_float{
   clear: both;
